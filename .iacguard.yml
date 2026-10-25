@@ -1,0 +1,4 @@
+﻿fail_on: critical
+ignore:
+  - rule: CKV_AWS_62
+    reason: "Compte de test isolé, admin voulu"
