@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: read
+  security-events: write    # pour upload-sarif (onglet Security)
 
 jobs:
   iac-guard:
@@ -22,6 +23,7 @@ jobs:
       - uses: chafiq753/iac-guard@tool   # deviendra @v1 à la publication
         with:
           fail-on: high
+          upload-sarif: true      # alertes dans Security > Code scanning
 
       - name: Garder le rapport
         if: always()
