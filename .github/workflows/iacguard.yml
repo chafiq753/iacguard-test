@@ -1,0 +1,31 @@
+# iac-guard — à copier dans .github/workflows/iacguard.yml du dépôt à protéger.
+# Pour griser le merge : Settings > Branches > règle sur main >
+# « Require status checks to pass » > check « iac-guard ».
+name: iac-guard
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  iac-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0          # Gitleaks lit tout l'historique Git
+
+      - uses: chafiq753/iac-guard@tool   # deviendra @v1 à la publication
+        with:
+          fail-on: high
+
+      - name: Garder le rapport
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: iacguard-report
+          path: iacguard-report.json
